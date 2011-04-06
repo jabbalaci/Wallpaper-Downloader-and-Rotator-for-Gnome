@@ -1,0 +1,58 @@
+Wallpaper Downloader and Rotator for Gnome
+==========================================
+
+Authors:  Laszlo Szathmary (jabba.laci@gmail.com)
+          iwakun (http://www.reddit.com/user/iwakun)
+Date:     April, 2011
+Version:  0.2
+
+GitHub:   https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome
+
+This free software is copyleft licensed under the same terms as Python, or,
+at your option, under version 2 of the GPL license.
+
+(The original script was written by reddit user iwakun. He announced his script
+at http://www.reddit.com/r/Ubuntu/comments/gghyx/python_script_to_download_images_from_rearthporn/
+You can also find his script in the original-by-iwakun/ folder).
+
+The goal of the script is to download images from a reddit category and 
+create an XML file that can be set as background in Gnome. The XML file
+will rotate the images in a circular way.
+
+Here is the list of changes that I added to the original version:
+* You can choose from several reddit categories. You can also 
+  specify your favorite category.
+* Screen scraping is done with the BeautifulSoup library.
+* The most important change is the filtering of images that are
+  unsuitable as wallpapers, i.e. small images, portrait images, and
+  images with strange ratio are removed from the list.
+* XML writing is done with the lxml library.
+
+For installing lxml, please refer to the entry https://pythonadventures.wordpress.com/2011/04/04/write-xml-to-file/,
+where the installation procedure is explained at the end of the post.
+
+
+Finally, I would like to quote the original README of iwakun:
+
+"Script to download images from /r/EarthPorn and create a rotating background
+
+Change the following variables to the values appropriate for your computer
+* photoDir
+* duration
+* transition
+* xmlFilename
+
+This script will download all the jpg images from the front page of /r/EarthPorn
+It will then create a randomized xml file that Gnome can use to automatically transition
+between desktop images at a specified interval.
+
+To set this as your background, just select the xml file created as your desktop
+background (you'll need to change the filter from "Images" to "All Files") See the
+following URL for a screenshot:
+http://dragonseptarts.files.wordpress.com/2010/06/screenshot-add-wallpaper1.png
+
+I've added this file to my crontab set to run once a day.
+
+TODO: Evaluate images for desktop suitability (ignore unsuitable resolutions or sizes)"
+
+Note: the TODO part is done in my revised version.
