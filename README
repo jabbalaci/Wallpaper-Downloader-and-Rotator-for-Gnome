@@ -6,13 +6,14 @@ Authors:  Laszlo Szathmary (jabba.laci@gmail.com)
 Date:     April, 2011
 Version:  0.2
 
+Website:  https://ubuntuincident.wordpress.com/2011/04/06/wallpaper-downloader-and-rotator-for-gnome/
 GitHub:   https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome
 
 This free software is copyleft licensed under the same terms as Python, or,
 at your option, under version 2 of the GPL license.
 
 (The original script was written by reddit user iwakun. He announced his script
-at http://www.reddit.com/r/Ubuntu/comments/gghyx/python_script_to_download_images_from_rearthporn/
+at http://www.reddit.com/r/Ubuntu/comments/gghyx/python_script_to_download_images_from_rearthporn/ .
 You can also find his script in the original-by-iwakun/ folder).
 
 The goal of the script is to download images from a reddit category and 
