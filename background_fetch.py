@@ -70,10 +70,11 @@ def is_ok_for_wallpaper(image):
     minimum_pixels = SIZE_THRESHOLD[0] * SIZE_THRESHOLD[1] * \
                      ((100.0 - SIZE_TOLERANCE)/100.0)
     img = Image.open(PHOTO_DIR + file_name(image))
+    width, height = img.size
     
-    large = (img.size[0] * img.size[1]) >= minimum_pixels
-    landscape = img.size[0] > img.size[1]
-    ratio = float(img.size[0]) / float(img.size[1])
+    large = (width * height) >= minimum_pixels
+    landscape = width > height
+    ratio = float(width) / float(height)
     ratio_ok = (RATIO_INTERVAL[0] <= ratio <= RATIO_INTERVAL[1])
     
     return ( large and landscape and ratio_ok )
