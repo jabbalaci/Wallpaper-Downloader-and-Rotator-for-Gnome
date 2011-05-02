@@ -31,7 +31,7 @@ REDDITS = { 0 : 'EarthPorn',  1 : 'CityPorn', 2 : 'SpacePorn',
 ##############################################################################
 # where to save the images:
 PHOTO_DIR = '/trash/gnome-wallpapers/'
-# 15 minutes:
+# 10 minutes:
 DURATION = '600.0'
 # transition time between two images:
 TRANSITION = '3.0'
