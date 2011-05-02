@@ -7,8 +7,13 @@ Download images from /r/EarthPorn (or from other reddits) and
 create a rotating background XML for Gnome.
 
 See the README file for more details.
+
+TODO: Store the names of unsuitable images in an SQLite database.
+      When downloading images, don't fetch an unsuitable image again.
+      This database should be in the PHOTO_DIR.
 """
 
+import sys
 import urllib2
 import os
 import random
@@ -46,8 +51,7 @@ XML_FILENAME = "%s.xml" % REDDITS[REDDIT]    # EarthPorn.xml, by default
 REDDIT_URL = "http://www.reddit.com/r/%s/" % REDDITS[REDDIT]
 
 def get_image_list(url):
-    """Fetch the HTML of reddit category and extract the URLs
-       of JPG images."""
+    """Fetch the HTML of a reddit category and extract the URLs of JPG images."""
     images = []
     soup = BeautifulSoup(urllib2.urlopen(url).read())
     for tag in soup.findAll('a', href=True):
@@ -58,18 +62,28 @@ def get_image_list(url):
     return images
 # get_image_list
 
-def file_name(url):
+def get_file_name(url):
     """Return the file name from an URL.
-       Ex.: http://example/pic.jpg => pic.jpg."""
+       
+    Ex.: http://example/pic.jpg => pic.jpg.
+    """
     return os.path.split(urlparse(url)[2])[1]
 
 def is_ok_for_wallpaper(image):
     """Decide whether an image is appropriate as a wallpaper.
-       An image is good if (1) it's resolution is large enough,
-       (2) rotation is landscape, and (3) ratio is OK."""
+    
+    An image is good if (1) it's resolution is large enough,
+    (2) rotation is landscape, and (3) ratio is OK.
+    """
     minimum_pixels = SIZE_THRESHOLD[0] * SIZE_THRESHOLD[1] * \
                      ((100.0 - SIZE_TOLERANCE)/100.0)
-    img = Image.open(PHOTO_DIR + file_name(image))
+    file_name = get_file_name(image)
+    try:
+        img = Image.open(PHOTO_DIR + file_name)
+    except IOError:
+        print >>sys.stderr, "# warning: I/O error with {0}.".format(file_name)
+        return False
+    # else, if the image could be opened
     width, height = img.size
     
     large = (width * height) >= minimum_pixels
@@ -84,7 +98,7 @@ def remove_unsuitable_images(all_images, filtered):
     """Remove images that are not so good for a wallpaper."""
     to_remove = list( set(all_images).difference(set(filtered)) )
     for bad in to_remove:
-        os.remove( PHOTO_DIR + file_name(bad) )
+        os.remove( PHOTO_DIR + get_file_name(bad) )
         
     print "# removed images: %s" % len(to_remove)
 # remove_unsuitable_images
@@ -103,8 +117,10 @@ def download_images(images):
 # download_images
 
 def write_xml_output(images):
-    """Produce an XML output. This XML must be set as background
-       under Gnome."""
+    """Produce an XML output.
+    
+    This XML must be set as background under Gnome.
+    """
     root = ET.Element('background')
     starttime = ET.SubElement(root, 'starttime')
     hour = ET.SubElement(starttime, 'hour')
