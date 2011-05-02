@@ -13,7 +13,6 @@ TODO: Store the names of unsuitable images in an SQLite database.
       This database should be in the PHOTO_DIR.
 """
 
-import sys
 import urllib2
 import os
 import random
@@ -25,7 +24,7 @@ from lxml import etree as ET
 
 # expand the list with REDDIT IDs if you want
 REDDITS = { 0 : 'EarthPorn',  1 : 'CityPorn', 2 : 'SpacePorn', 
-            3 : 'AnimalPorn', 4 : 'BotanicalPorn' }
+            3 : 'AnimalPorn', 4 : 'BotanicalPorn', 5: 'AlternativeArt' }
 
 ##############################################################################
 ## change these variables
@@ -33,13 +32,13 @@ REDDITS = { 0 : 'EarthPorn',  1 : 'CityPorn', 2 : 'SpacePorn',
 # where to save the images:
 PHOTO_DIR = '/trash/gnome-wallpapers/'
 # 15 minutes:
-DURATION = '895.0'
+DURATION = '600.0'
 # transition time between two images:
-TRANSITION = '5.0'
+TRANSITION = '3.0'
 # EarthPorn, by default:
 REDDIT = 0
 # image size should have at least that many pixels:
-SIZE_THRESHOLD = (800, 600)
+SIZE_THRESHOLD = (900, 600)
 # percentage, accept image if smaller than threshold by this percentage:
 SIZE_TOLERANCE = 5.0
 # ratio must be in this interval:
@@ -50,16 +49,50 @@ RATIO_INTERVAL = (1.0, 2.0)
 XML_FILENAME = "%s.xml" % REDDITS[REDDIT]    # EarthPorn.xml, by default
 REDDIT_URL = "http://www.reddit.com/r/%s/" % REDDITS[REDDIT]
 
-def get_image_list(url):
-    """Fetch the HTML of a reddit category and extract the URLs of JPG images."""
+def get_jpg_images(soup):
+    """Extract the URLs of JPG images from the HTML of a reddit category. 
+    
+    This method doesn't extract Flickr images.
+    """
     images = []
-    soup = BeautifulSoup(urllib2.urlopen(url).read())
+
     for tag in soup.findAll('a', href=True):
         if tag['href'].lower().endswith('jpg'):
             if tag['href'] not in images:
                 images.append(tag['href'])  # no duplicates and keep the order
                 
     return images
+# get_jpg_images
+
+def get_flickr_images(soup):
+    """Extract Flickr images too."""
+    flickr = []
+    for tag in soup.findAll('a', href=True):
+        if tag['href'].lower().endswith('photostream/'):
+            if tag['href'] not in flickr:
+                flickr.append(tag['href'])
+
+    images = []
+    for flickr_page in flickr:
+        bs = BeautifulSoup(urllib2.urlopen(flickr_page).read())
+        li = get_jpg_images(bs)
+        if len(li) > 0:
+            images.append(li[0])
+
+    return images
+# get_flickr_images
+
+def get_image_list(url):
+    soup = BeautifulSoup(urllib2.urlopen(url).read())
+    
+    list_1 = get_jpg_images(soup)
+    list_2 = get_flickr_images(soup)
+    
+    union = []
+    union.extend(list_1)
+    union.extend(list_2)
+    
+    return union
 # get_image_list
 
 def get_file_name(url):
@@ -81,7 +114,7 @@ def is_ok_for_wallpaper(image):
     try:
         img = Image.open(PHOTO_DIR + file_name)
     except IOError:
-        print >>sys.stderr, "# warning: I/O error with {0}.".format(file_name)
+        print "# warning: I/O error with {0}.".format(file_name)
         return False
     # else, if the image could be opened
     width, height = img.size
@@ -100,7 +133,7 @@ def remove_unsuitable_images(all_images, filtered):
     for bad in to_remove:
         os.remove( PHOTO_DIR + get_file_name(bad) )
         
-    print "# removed images: %s" % len(to_remove)
+    print "# removed image(s): %s" % len(to_remove)
 # remove_unsuitable_images
 
 def download_images(images):
