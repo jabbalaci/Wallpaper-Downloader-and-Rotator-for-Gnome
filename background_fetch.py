@@ -65,7 +65,7 @@ def get_jpg_images(soup):
 # get_jpg_images
 
 def get_flickr_images(soup):
-    """Extract Flickr images too."""
+    """Extract Flickr images."""
     flickr = []
     for tag in soup.findAll('a', href=True):
         if tag['href'].lower().endswith('photostream/'):
@@ -83,6 +83,7 @@ def get_flickr_images(soup):
 # get_flickr_images
 
 def get_image_list(url):
+    """Controller function for getting the URLs of the JPG images."""
     soup = BeautifulSoup(urllib2.urlopen(url).read())
     
     list_1 = get_jpg_images(soup)
@@ -153,6 +154,7 @@ def write_xml_output(images):
     """Produce an XML output.
     
     This XML must be set as background under Gnome.
+    See the README file for more info.
     """
     root = ET.Element('background')
     starttime = ET.SubElement(root, 'starttime')

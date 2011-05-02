@@ -29,7 +29,7 @@ Here is the list of changes that I added to the original version:
   unsuitable as wallpapers, i.e. small images, portrait images, and
   images with strange ratio are removed from the list.
 * XML writing is done with the lxml library.
-* Support for Flickr images (zioyero's patch)
+* Support for Flickr images (zioyero's patch).
 
 For installing lxml, please refer to the entry https://pythonadventures.wordpress.com/2011/04/04/write-xml-to-file/,
 where the installation procedure is explained at the end of the post.
@@ -63,4 +63,7 @@ I've added this file to my crontab set to run once a day.
 
 TODO: Evaluate images for desktop suitability (ignore unsuitable resolutions or sizes)"
 
-Note: the TODO part is done in my revised version.
+Note #1: the TODO part is done in my revised version.
+
+Note #2: To set the background XML from the command-line, use this command:
+gconftool-2 --type string --set /desktop/gnome/background/picture_filename /absolute_path_to/EarthPorn.xml
