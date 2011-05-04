@@ -59,7 +59,7 @@ def create_db():
 def init(sqlite_db):
     """Initialize the DB."""
     global SQLITE_DB, conn
-    atexit.register(close)
+    atexit.register(commit_and_close)
     SQLITE_DB = sqlite_db
     
     if not os.path.exists(SQLITE_DB):
@@ -68,7 +68,7 @@ def init(sqlite_db):
         conn = sqlite3.connect(SQLITE_DB)
         
         
-def close():
+def commit_and_close():
     """Commit and close DB connection.
     
     As I noticed, commit() must be called, otherwise changes
