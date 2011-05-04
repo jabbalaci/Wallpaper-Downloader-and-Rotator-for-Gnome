@@ -7,10 +7,6 @@ Download images from /r/EarthPorn (or from other reddits) and
 create a rotating background XML for Gnome.
 
 See the README file for more details.
-
-TODO: Store the names of unsuitable images in an SQLite database.
-      When downloading images, don't fetch an unsuitable image again.
-      This database should be in the PHOTO_DIR.
 """
 
 import urllib2
@@ -22,6 +18,8 @@ from BeautifulSoup import BeautifulSoup
 from urlparse import urlparse
 from lxml import etree as ET
 
+import database as db
+
 # expand the list with REDDIT IDs if you want
 REDDITS = { 0 : 'EarthPorn',  1 : 'CityPorn', 2 : 'SpacePorn', 
             3 : 'AnimalPorn', 4 : 'BotanicalPorn', 5: 'AlternativeArt' }
@@ -31,6 +29,8 @@ REDDITS = { 0 : 'EarthPorn',  1 : 'CityPorn', 2 : 'SpacePorn',
 ##############################################################################
 # where to save the images:
 PHOTO_DIR = '/trash/gnome-wallpapers/'
+# SQLite database will be stored here:
+SQLITE_DB = PHOTO_DIR + 'database/wallpapers.sqlite'
 # 10 minutes:
 DURATION = '600.0'
 # transition time between two images:
@@ -49,6 +49,7 @@ RATIO_INTERVAL = (1.0, 2.0)
 XML_FILENAME = "%s.xml" % REDDITS[REDDIT]    # EarthPorn.xml, by default
 REDDIT_URL = "http://www.reddit.com/r/%s/" % REDDITS[REDDIT]
 
+
 def get_jpg_images(soup):
     """Extract the URLs of JPG images from the HTML of a reddit category. 
     
@@ -63,6 +64,7 @@ def get_jpg_images(soup):
                 
     return images
 # get_jpg_images
+
 
 def get_flickr_images(soup):
     """Extract Flickr images."""
@@ -82,7 +84,8 @@ def get_flickr_images(soup):
     return images
 # get_flickr_images
 
-def get_image_list(url):
+
+def get_image_url_list(url):
     """Controller function for getting the URLs of the JPG images."""
     soup = BeautifulSoup(urllib2.urlopen(url).read())
     
@@ -94,7 +97,8 @@ def get_image_list(url):
     union.extend(list_2)
     
     return union
-# get_image_list
+# get_image_url_list
+
 
 def get_file_name(url):
     """Return the file name from an URL.
@@ -102,6 +106,7 @@ def get_file_name(url):
     Ex.: http://example/pic.jpg => pic.jpg.
     """
     return os.path.split(urlparse(url)[2])[1]
+
 
 def is_ok_for_wallpaper(image):
     """Decide whether an image is appropriate as a wallpaper.
@@ -128,27 +133,41 @@ def is_ok_for_wallpaper(image):
     return ( large and landscape and ratio_ok )
 # is_ok_for_wallpaper
 
-def remove_unsuitable_images(all_images, filtered):
-    """Remove images that are not so good for a wallpaper."""
-    to_remove = list( set(all_images).difference(set(filtered)) )
-    for bad in to_remove:
-        os.remove( PHOTO_DIR + get_file_name(bad) )
+
+def register_good_images_to_db(good_images):
+    for img in good_images:
+        db.add_image(img)
+# register_good_images_to_db
         
-    print "# removed image(s): %s" % len(to_remove)
-# remove_unsuitable_images
+
+def remove_bad_images_and_register_to_db(bad_images):
+    """Remove images that are not so good for a wallpaper."""
+    for img in bad_images:
+        os.remove( PHOTO_DIR + get_file_name(img) )
+        db.add_image(img, good=False)
+        
+    print "# removed image(s): %s" % len(bad_images)
+# remove_bad_images_and_register_to_db
+
 
 def download_images(images):
-    """Use wget to download images into specified directory."""
+    """Use wget to download new images into a specified directory."""
+    fetched = []
     count = 0
-    for image in images:
-        filename = os.path.basename(image)
-        if os.path.exists(PHOTO_DIR + filename) is False:
-            # download if the file doesn't exist yet
-            os.system('wget -O ' + PHOTO_DIR + filename + ' ' + image)
-            count += 1
+    for img in images:
+        if not db.is_image_in_db(img):
+            filename = os.path.basename(img)
+            if not os.path.exists(PHOTO_DIR + filename):
+                os.system('wget -O ' + PHOTO_DIR + filename + ' ' + img)
+                fetched.append(img)
+                count += 1
+        else:
+            print "# {0} was already fetched once...".format(img)
             
-    print "# new image(s): %d" % count
+    print "# new img(s): %d" % count
+    return fetched
 # download_images
+
 
 def write_xml_output(images):
     """Produce an XML output.
@@ -185,29 +204,31 @@ def write_xml_output(images):
     tree.write(PHOTO_DIR + XML_FILENAME, pretty_print=True, 
                xml_declaration=True)
 # write_xml_output
+
     
 def main():
     """Control block."""
-    # get the URL of all images
-    images = get_image_list(REDDIT_URL)
+    db.init(SQLITE_DB)
     
-    # download images
-    download_images(images)
-
-    # filter good images and remove the bad ones from the file system
-    filtered = [x for x in images if is_ok_for_wallpaper(x)]
-    remove_unsuitable_images(images, filtered)
-
-    # work with these good images from now on
-    images = filtered
+    all_images = get_image_url_list(REDDIT_URL)
     
+    fetched_images = download_images(all_images)
+
+    good_images = [x for x in fetched_images if is_ok_for_wallpaper(x)]
+    bad_images = list( set(fetched_images).difference(set(good_images)) )
+    
+    register_good_images_to_db(good_images)
+    remove_bad_images_and_register_to_db(bad_images)
+
     # create an XML file
-    if len(images) > 0:
-        # get all images in speficied directory
-        jpegs = [x for x in os.listdir(PHOTO_DIR) if x.lower().endswith('jpg')]
-        random.shuffle(jpegs) # randomize image order
-        write_xml_output(jpegs)
+    if len(good_images) > 0:
+        # get all images in the speficied directory
+        jpg_files = [x for x in os.listdir(PHOTO_DIR) if x.lower().endswith('jpg')]
+        random.shuffle(jpg_files) # randomize image order
+        write_xml_output(jpg_files)
 # main
+
+#############################################################################
 
 if __name__ == "__main__":
     main()

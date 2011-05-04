@@ -5,7 +5,7 @@ Authors:  Laszlo Szathmary (jabba.laci@gmail.com)
           iwakun (http://www.reddit.com/user/iwakun)
 Date:     April, 2011
 Last mod: May, 2011
-Version:  0.2.5
+Version:  0.3.0
 
 Website:  https://ubuntuincident.wordpress.com/2011/04/06/wallpaper-downloader-and-rotator-for-gnome/
 GitHub:   https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome
@@ -30,6 +30,8 @@ Here is the list of changes that I added to the original version:
   images with strange ratio are removed from the list.
 * XML writing is done with the lxml library.
 * Support for Flickr images (zioyero's patch).
+* The URLs of the downloaded images are strored in an SQLite database.
+  This way an already fetched image (either good or bad) won't be downloaded again.
 
 For installing lxml, please refer to the entry https://pythonadventures.wordpress.com/2011/04/04/write-xml-to-file/,
 where the installation procedure is explained at the end of the post.
