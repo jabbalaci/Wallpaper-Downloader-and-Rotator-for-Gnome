@@ -1,0 +1,28 @@
+http://www.reddit.com/r/Ubuntu/comments/gghyx/python_script_to_download_images_from_rearthporn/
+
+iwakun's original README:
+
+"""
+Script to download images from /r/EarthPorn and create a rotating background
+
+Change the following variables to the values appropriate for your computer
+* photoDir
+* duration
+* transition
+* xmlFilename
+
+This script will download all the jpg images from the front page of /r/EarthPorn
+It will then create a randomized xml file that Gnome can use to automatically transition
+between desktop images at a specified interval.
+
+To set this as your background, just select the xml file created as your desktop
+background (you'll need to change the filter from "Images" to "All Files") See the
+following URL for a screenshot:
+http://dragonseptarts.files.wordpress.com/2010/06/screenshot-add-wallpaper1.png
+
+I've added this file to my crontab set to run once a day.
+
+TODO: Evaluate images for desktop suitability (ignore unsuitable resolutions or sizes)
+"""
+
+Note #1: the TODO part is done in my revised version.

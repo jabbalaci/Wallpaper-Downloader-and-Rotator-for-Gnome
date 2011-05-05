@@ -11,8 +11,7 @@ import os
 import sqlite3
 import atexit
 
-
-SQLITE_DB = None
+import config as c
 
 SCHEMA = """
 -- Schema for the wallpapers.
@@ -49,23 +48,22 @@ def add_image(url, good=True):
 def create_db():
     """Create the DB if not exists."""
     global conn
-    dir_name= os.path.split(SQLITE_DB)[0]
+    dir_name= os.path.split(c.SQLITE_DB)[0]
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
-    conn = sqlite3.connect(SQLITE_DB)
+    conn = sqlite3.connect(c.SQLITE_DB)
     conn.executescript(SCHEMA)
 
 
-def init(sqlite_db):
+def init():
     """Initialize the DB."""
-    global SQLITE_DB, conn
+    global conn
     atexit.register(commit_and_close)
-    SQLITE_DB = sqlite_db
     
-    if not os.path.exists(SQLITE_DB):
+    if not os.path.exists(c.SQLITE_DB):
         create_db()
     if not conn:
-        conn = sqlite3.connect(SQLITE_DB)
+        conn = sqlite3.connect(c.SQLITE_DB)
         
         
 def commit_and_close():
