@@ -42,11 +42,33 @@ installation procedure is explained at the end of the post.
 [1]: https://pythonadventures.wordpress.com/2011/04/04/write-xml-to-file/
 
 
+Usage:
+------
+
+First, you might want to customize some settings in the `config.py` file.
+The most important thing is the `PHOTO_DIR` directory, i.e. where to store
+the downloaded images. Create this directory if it doesn't exist.
+Then, simply launch the script:
+
+    ./background_fetch.py
+    
+You can also add it to your crontab:
+
+    $ crontab -e
+    10 */2 * * * /absolute_path_to/background_fetch.py
+    
+Add the second line to the end of the crontab list. Here the script is 
+called at every two hours (at 0h10, 2h10, etc.).
+
+
 Contributors:
 -------------
 
-* Nathan B, alias ndbroadbent
-* Adrian Castillejos, alias zioyero
+* Nathan B, alias [ndbroadbent][2]
+* Adrian Castillejos, alias [zioyero][3]
+
+[2]: https://github.com/ndbroadbent
+[3]: https://github.com/zioyero
 
 
 Managing the downloaded wallpapers:
