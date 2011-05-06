@@ -14,7 +14,7 @@ This free software is copyleft licensed under the same terms as Python, or,
 at your option, under version 2 of the GPL license.
 
 (The original script was written by reddit user iwakun.
-See the original_by_iwakun/ folder for more information.)
+See the `original_by_iwakun/` folder for more information.)
 
 The goal of the script is to download images from a reddit category and 
 create an XML file that can be set as background in Gnome. The XML file
@@ -36,18 +36,22 @@ Here is the list of changes that I added to the original version:
   do that manually. Also, XML production can be switched off if you want to
   use a different wallpaper manager.
 
-For installing lxml, please refer to the entry <https://pythonadventures.wordpress.com/2011/04/04/write-xml-to-file/>,
-where the installation procedure is explained at the end of the post.
+For installing lxml, please refer to [this entry][1], where the 
+installation procedure is explained at the end of the post.
+
+[1]: https://pythonadventures.wordpress.com/2011/04/04/write-xml-to-file/
 
 
 Contributors:
 -------------
+
 * Nathan B, alias ndbroadbent
 * Adrian Castillejos, alias zioyero
 
 
 Managing the downloaded wallpapers:
 -----------------------------------
+
 There are several ways to manage the downloaded images:
 
 1. The easiest way is to let this job done by the script. By default,
@@ -59,19 +63,18 @@ There are several ways to manage the downloaded images:
    Nathan B, alias ndbroadbent suggests Cortina. Here is what he has to say 
    about it:
 
->"
->I'd just like to mention that I found the 'Cortina' application, and it blows away Gnome's wallpaper rotater.
->It monitors an image directory and changes your wallpapers after a desired interval, but also:
->
->* Can be set to change wallpapers in a random order
->* Puts an icon in the system tray
->    * Left-click: immediately change the wallpaper
->    * Right-click  => Current Wallpaper => remove from disk
->
->You can install it from a custom ppa with this command:
->
->    `sudo add-apt-repository ppa:cs-sniffer/cortina && sudo apt-get update && sudo apt-get install cortina`
->"
+> I'd just like to mention that I found the 'Cortina' application, and it blows away Gnome's wallpaper rotater.
+> It monitors an image directory and changes your wallpapers after a desired interval, but also:
+> 
+> * Can be set to change wallpapers in a random order
+> * Puts an icon in the system tray
+>     * Left-click: immediately change the wallpaper
+>     * Right-click  => Current Wallpaper => remove from disk
+> 
+> You can install it from a custom PPA with this command:
+> 
+>     sudo add-apt-repository ppa:cs-sniffer/cortina && sudo apt-get update && sudo apt-get install cortina
 
 I couldn't install Cortina under Ubuntu 11.04 but it might work with older systems.
 Note that wally can do similar things too.
+
