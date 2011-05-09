@@ -79,9 +79,10 @@ There are several ways to manage the downloaded images:
 1. The easiest way is to let this job done by the script. By default,
    it produces an XML file and sets it as your wallpaper. See the
    config file if you want to do some customizations.
-2. You can also use a wallpaper manager. I have already used wally but
-   I had problems with it under Unity. It creates a system tray icon 
-   but under Unity it's not visible so I couldn't use it...
+2. You can also use a wallpaper manager. I suggest wally, it worked
+   very well for me. See [this post][4] for more information on how to 
+   install and make it work under Unity.
+   
    Nathan B, alias ndbroadbent suggests Cortina. Here is what he has to say 
    about it:
 
@@ -100,3 +101,4 @@ There are several ways to manage the downloaded images:
 I couldn't install Cortina under Ubuntu 11.04 but it might work with older systems.
 Note that wally can do similar things too.
 
+[4]: https://ubuntuincident.wordpress.com/2011/01/10/wallpaper-changer/
