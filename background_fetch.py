@@ -9,67 +9,16 @@ create a rotating background XML for Gnome.
 See the README file for more details.
 """
 
-import urllib2
 import os
 import random
 import Image
 
-from BeautifulSoup import BeautifulSoup
 from urlparse import urlparse
 
 import helper.config as c
 import helper.database as db
-import helper.xml as xml
-
-
-def get_jpg_images(soup):
-    """Extract the URLs of JPG images from the HTML of a reddit category. 
-    
-    This method doesn't extract Flickr images.
-    """
-    images = []
-
-    for tag in soup.findAll('a', href=True):
-        if tag['href'].lower().endswith('jpg'):
-            if tag['href'] not in images:
-                images.append(tag['href'])  # no duplicates and keep the order
-                
-    return images
-# get_jpg_images
-
-
-def get_flickr_images(soup):
-    """Extract Flickr images."""
-    flickr = []
-    for tag in soup.findAll('a', href=True):
-        if tag['href'].lower().endswith('photostream/'):
-            if tag['href'] not in flickr:
-                flickr.append(tag['href'])
-
-    images = []
-    for flickr_page in flickr:
-        bs = BeautifulSoup(urllib2.urlopen(flickr_page).read())
-        li = get_jpg_images(bs)
-        if len(li) > 0:
-            images.append(li[0])
-
-    return images
-# get_flickr_images
-
-
-def get_image_url_list(url):
-    """Controller function for getting the URLs of the JPG images."""
-    soup = BeautifulSoup(urllib2.urlopen(url).read())
-    
-    list_1 = get_jpg_images(soup)
-    list_2 = get_flickr_images(soup)
-    
-    union = []
-    union.extend(list_1)
-    union.extend(list_2)
-    
-    return union
-# get_image_url_list
+from helper import xml
+from helper.scraper import reddit
 
 
 def get_file_name(url):
@@ -106,20 +55,22 @@ def is_ok_for_wallpaper(image):
 # is_ok_for_wallpaper
 
 
-def register_good_images_to_db(good_images):
+def register_good_and_bad_images_to_db(good_images, bad_images):
     for img in good_images:
         db.add_image(img)
-# register_good_images_to_db
+        
+    for img in bad_images:
+        db.add_image(img, good=False)
+# register_good_and_bad_images_to_db
         
 
-def remove_bad_images_and_register_to_db(bad_images):
+def remove_bad_images(bad_images):
     """Remove images that are not so good for a wallpaper."""
     for img in bad_images:
         os.remove(c.PHOTO_DIR + get_file_name(img))
-        db.add_image(img, good=False)
         
-    print "# removed image(s): %s" % len(bad_images)
-# remove_bad_images_and_register_to_db
+    print "# removed image(s): {0}".format(len(bad_images))
+# remove_bad_images
 
 
 def download_images(images):
@@ -157,15 +108,15 @@ def main():
     """Control block."""
     db.init()
     
-    all_images = get_image_url_list(c.get_reddit_url())
+    all_images = reddit.get_image_url_list(c.get_reddit_url())
     
     fetched_images = download_images(all_images)
 
     good_images = [x for x in fetched_images if is_ok_for_wallpaper(x)]
     bad_images = list( set(fetched_images).difference(set(good_images)) )
     
-    register_good_images_to_db(good_images)
-    remove_bad_images_and_register_to_db(bad_images)
+    register_good_and_bad_images_to_db(good_images, bad_images)
+    remove_bad_images(bad_images)
 
     create_and_set_xml_wallpaper()
 # main
