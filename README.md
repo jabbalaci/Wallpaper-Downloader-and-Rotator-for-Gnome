@@ -102,3 +102,13 @@ I couldn't install Cortina under Ubuntu 11.04 but it might work with older syste
 Note that wally can do similar things too.
 
 [4]: https://ubuntuincident.wordpress.com/2011/01/10/wallpaper-changer/
+
+
+TODO:
+-----
+
+Add support to more wallpaper sites:
+
+* <http://wallbase.cc>
+* <http://4walled.org/>
+
