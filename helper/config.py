@@ -38,6 +38,7 @@ PRODUCE_XML = True
 # Should we set the produced XML as your wallpaper? If PRODUCE_XML is False,
 # it will be discarded.
 SET_XML_WALLPAPER = True
+#SET_XML_WALLPAPER = False
 # 10 minutes:
 DURATION = '600.0'
 # transition time between two images:

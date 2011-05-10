@@ -17,9 +17,9 @@ import Image
 from BeautifulSoup import BeautifulSoup
 from urlparse import urlparse
 
-import config as c
-import database as db
-import xml
+import helper.config as c
+import helper.database as db
+import helper.xml as xml
 
 
 def get_jpg_images(soup):
