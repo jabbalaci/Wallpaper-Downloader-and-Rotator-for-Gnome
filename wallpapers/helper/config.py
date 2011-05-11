@@ -34,11 +34,12 @@ RATIO_INTERVAL = (1.0, 2.0)
 ##############################################################################
 # Should we produce an XML? It's not obligatory. You can use this script
 # for simply downloading images and you can use a different wallpaper manager. 
-PRODUCE_XML = True
+#PRODUCE_XML = True
+PRODUCE_XML = False
 # Should we set the produced XML as your wallpaper? If PRODUCE_XML is False,
 # it will be discarded.
-SET_XML_WALLPAPER = True
-#SET_XML_WALLPAPER = False
+#SET_XML_WALLPAPER = True
+SET_XML_WALLPAPER = False
 # 10 minutes:
 DURATION = '600.0'
 # transition time between two images:

@@ -15,10 +15,10 @@ import Image
 
 from urlparse import urlparse
 
-import helper.config as c
-import helper.database as db
-from helper import xml
-from helper.scraper import reddit
+import wallpapers.helper.config as c
+import wallpapers.helper.database as db
+from wallpapers.helper import xml
+from wallpapers.scraper import reddit
 
 
 def get_file_name(url):

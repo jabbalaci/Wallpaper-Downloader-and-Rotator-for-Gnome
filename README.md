@@ -6,7 +6,7 @@ Wallpaper Downloader and Rotator for Gnome
     - iwakun (<http://www.reddit.com/user/iwakun>)
 * Date:      April, 2011
 * Last mod.: May, 2011
-* Version:   0.3.5
+* Version:   0.3.6
 * Website:   <https://ubuntuincident.wordpress.com/2011/04/06/wallpaper-downloader-and-rotator-for-gnome/>
 * GitHub:    <https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome>
 
@@ -50,15 +50,24 @@ The most important thing is the `PHOTO_DIR` directory, i.e. where to store
 the downloaded images. Create this directory if it doesn't exist.
 Then, simply launch the script:
 
-    ./background_fetch.py
+    ./wallpapers.py
     
 You can also add it to your crontab:
 
     $ crontab -e
-    10 */2 * * * /absolute_path_to/background_fetch.py
+    10 */2 * * * /absolute_path_to/wallpapers.py
     
 Add the second line to the end of the crontab list. Here the script is 
 called at every two hours (at 0h10, 2h10, etc.).
+
+**New:**
+
+I changed the default behaviour of the script. By default it doesn't
+generate an XML output. I find it a better solution to use a dedicated
+wallpaper manager for this task (see below for a list of alternatives).
+Rotating the images with an XML is not very flexible, a wallpaper manager
+can provide a better experience.
+If you still want the XML, set it in the config file.
 
 
 Contributors:
@@ -111,4 +120,3 @@ Add support to more wallpaper sites:
 
 * <http://wallbase.cc>
 * <http://4walled.org/>
-
