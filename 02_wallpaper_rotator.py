@@ -23,22 +23,60 @@ from wallpapers.helper import gnome
 
 
 def print_info():
-    print "# Jabba's Wallpaper Rotator for Gnome v0.1"
-    print "# initial photo dir.: {dir}".format(dir=cfg.PHOTO_DIR)
+    li = [cfg.get_photo_dir_by_key(key) for key in cfg.ROTATOR_CHOICE]
+
+    print "# Jabba's Wallpaper Rotator for Gnome v0.2"
+    print "#", li
     print "# initial duration: {0} sec.".format(cfg.DURATION)
+
+
+class WallpaperPicker:
+    """Simple class for collecting images and picking one randomly."""
+    
+    def __init__(self):
+        """To prevent picking the previous image."""
+        self.prev = None
+        
+    def collect_images(self):
+        """Collect images from _several_ directories."""
+        li = []
+        for key in cfg.ROTATOR_CHOICE:
+            photo_dir = cfg.get_photo_dir_by_key(key)
+            li.extend([os.path.join(photo_dir, x) for x in os.listdir(photo_dir) if x.lower().endswith('jpg')])
+        self.images = li
+        
+    def get_nb_images(self):
+        """Number of images."""
+        return len(self.images)
+    
+    def get_first_image(self):
+        """Get the first image."""
+        return self.images[0]
+    
+    def get_random_image(self):
+        """Get a random image from the list."""
+        random.shuffle(self.images)
+        img = random.choice(self.images)
+        while img == self.prev:
+            img = random.choice(self.images)
+        self.prev = img
+        
+        return img
 
 
 def main():
     print_info()
     
-    prev = None
+    wp = WallpaperPicker()
+    
     while True:
         # if you modify the config file, this script doesn't have to be restarted
         reload(cfg)
+        cfg.self_verify()
         
-        images = [os.path.join(cfg.PHOTO_DIR, x) for x in os.listdir(cfg.PHOTO_DIR) if x.lower().endswith('jpg')]
-        random.shuffle(images)
-        nb_images = len(images)
+        wp.collect_images()
+        
+        nb_images = wp.get_nb_images()
         
         if nb_images == 0:
             # there are no images in the directory => do nothing
@@ -46,15 +84,12 @@ def main():
         
         if nb_images == 1:
             # there is only one image => easy choice
-            wallpaper = images[0]
+            wallpaper = wp.get_first_image()
             
         if nb_images > 1:
             # there are several images => choose a different image than the previous pick
-            wallpaper = random.choice(images)
-            while wallpaper == prev:
-                wallpaper = random.choice(images)
+            wallpaper = wp.get_random_image()
             gnome.set_wallpaper_image(wallpaper)
-            prev = wallpaper
             
         try:
             sleep(float(cfg.DURATION))

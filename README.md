@@ -4,7 +4,7 @@ Wallpaper Downloader and Rotator for Gnome
 * Author:    Laszlo Szathmary (<jabba.laci@gmail.com>)
 * Date:      April, 2011
 * Last mod.: June, 2011
-* Version:   0.4.0
+* Version:   0.4.5
 * Website:   <https://ubuntuincident.wordpress.com/2011/04/06/wallpaper-downloader-and-rotator-for-gnome/>
 * GitHub:    <https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome>
 
@@ -20,6 +20,10 @@ will rotate the images.
 
 Here is the list of changes that I added to the original version:
 
+* **New!** You can specify several categories and the downloader will grab
+  images from all these sites. The same is true for rotator: you can specify
+  several categories and it will pick a random image from the whole list.
+  See the config file for more details.
 * **New!** The project includes an automatic wallpaper changer script
   called `wallpaper_rotator.py`. You don't need any third-party managers anymore.
 * You can choose from several reddit categories. You can also 
@@ -111,9 +115,3 @@ TODO:
             im = Image.open(infile)
             im.thumbnail(size, Image.ANTIALIAS)
             im.save(file + ".thumbnail", "JPEG")
-
-3. Currently the downloader grabs images from one site only,
-   this is specified by the user in the config file. It'd be nice if the
-   downloader could visit _several_ or even _all_ the sites that are listed
-   in the config file. This way if I want to see wallpapers from another
-   category, that category would already contain lots of images.

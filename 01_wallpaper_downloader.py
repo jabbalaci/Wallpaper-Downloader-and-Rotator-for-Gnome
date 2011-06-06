@@ -93,21 +93,31 @@ def download_images(images):
 
 def create_and_set_xml_wallpaper():
     """Collect images, create an XML and set it as wallpaper."""
-    # get all images in the specified directory
-    jpg_files = [x for x in os.listdir(cfg.PHOTO_DIR) if x.lower().endswith('jpg')]
-    if len(jpg_files) > 0 and cfg.PRODUCE_XML:
-        random.shuffle(jpg_files) # randomize image order
-        xml.write_xml_output(jpg_files)
-        if cfg.SET_XML_WALLPAPER:
-            gnome.set_wallpaper_xml()
+    if cfg.PRODUCE_XML:
+        jpg_files = [x for x in os.listdir(cfg.PHOTO_DIR) if x.lower().endswith('jpg')]
+        if len(jpg_files) > 0:
+            random.shuffle(jpg_files)   # randomize image order
+            xml.write_xml_output(jpg_files)
+            if cfg.SET_XML_WALLPAPER:
+                gnome.set_wallpaper_xml()
 
 
-def main():
-    """Control block."""
-    print("# choice: {0}".format(cfg.get_choice()['url']))
-    directories.check_directories()
-    db.init()
+def header():
+    """Header to know which site we are working with."""
+    header = "{0}".format(cfg.get_choice()['url'])
+    size = len(header) + 2 + 2
+    return """{sep}
+# {header} #
+{sep}""".format(sep='#'*size, header=header) 
+
+
+def get_images_from_site(site_key):
+    """Get images from a given site."""
+    cfg.set_current_choice(site_key)
+    directories.check_photo_dir()
     
+    print header()
+
     all_images = dispatch.get_images(cfg.get_choice())
     
     fetched_images = download_images(all_images)
@@ -118,6 +128,20 @@ def main():
     register_good_and_bad_images_to_db(good_images, bad_images)
     remove_bad_images(bad_images)
 
+    
+def main():
+    """Control block."""
+    cfg.self_verify()
+    directories.check_base_dir()
+    db.init()
+    
+    save_choice = cfg.CURRENT_CHOICE
+    
+    for site_key in cfg.MULTIPLE_CHOICE:
+        get_images_from_site(site_key)
+        
+    cfg.set_current_choice(save_choice)
+    
     create_and_set_xml_wallpaper()
 
 #############################################################################
