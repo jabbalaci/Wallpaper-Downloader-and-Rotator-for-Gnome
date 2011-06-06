@@ -50,12 +50,12 @@ The most important thing is the `PHOTO_DIR` directory, i.e. where to store
 the downloaded images. Create this directory if it doesn't exist.
 Then, simply launch the script:
 
-    ./wallpapers.py
+    ./wallpaper_downloader.py
     
 You can also add it to your crontab:
 
     $ crontab -e
-    10 */2 * * * /absolute_path_to/wallpapers.py
+    10 */2 * * * /absolute_path_to/wallpaper_downloader.py
     
 Add the second line to the end of the crontab list. Here the script is 
 called at every two hours (at 0h10, 2h10, etc.).
