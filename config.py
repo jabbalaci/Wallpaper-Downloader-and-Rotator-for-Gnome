@@ -21,10 +21,11 @@ WALLPAPER_PAGES = {
 ##############################################################################
 ## change these variables
 ##############################################################################
-# Your choice. Default: EarthPorn
-CHOICE = 0
+# Your choice. Example: 0, which means EarthPorn.
+CHOICE = 3
+# Base dir. Set in ABSOLUTE path.
 BASE_DIR = '/trash/gnome-wallpapers'
-# Where to save the images. Default: /trash/gnome-wallpapers/EarthPorn
+# Where to save the images. Example: /trash/gnome-wallpapers/EarthPorn
 PHOTO_DIR = '{base_dir}/{dir}/'.format(base_dir=BASE_DIR, dir=WALLPAPER_PAGES[CHOICE]['id'])
 # SQLite database will be stored here:
 SQLITE_DB = '{base_dir}/.database/wallpapers.sqlite'.format(base_dir=BASE_DIR)
@@ -46,9 +47,9 @@ PRODUCE_XML = False
 # it will be discarded.
 #SET_XML_WALLPAPER = True
 SET_XML_WALLPAPER = False
-# 10 minutes:
+# duration in seconds:
 DURATION = '600.0'
-# transition time between two images:
+# transition time in seconds between two images:
 TRANSITION = '3.0'
 ##############################################################################
 

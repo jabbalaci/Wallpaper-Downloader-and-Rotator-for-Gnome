@@ -5,10 +5,8 @@ Write XML file.
 """
 
 import os
-import shlex
 
 from lxml import etree as ET
-from subprocess import call, PIPE
 
 import config as cfg
 
@@ -49,14 +47,3 @@ def write_xml_output(images):
     tree.write(xml_output_file, pretty_print=True, 
                xml_declaration=True)
     print("# XML was written to {0}".format(xml_output_file))
-
-
-def set_xml_wallpaper():
-    """Set the XML file as wallpaper.
-    
-    Call the necessary Gnome commands for this."""
-    xml_output_file = os.path.join(cfg.PHOTO_DIR, cfg.XML_FILENAME)
-    cmd = "gconftool-2 --type string --set /desktop/gnome/background/picture_filename {0}".format(xml_output_file)
-    args = shlex.split(cmd)
-    if call(args, stdout=PIPE) == 0:
-        print("# XML file {0} was set as wallpaper.".format(xml_output_file))

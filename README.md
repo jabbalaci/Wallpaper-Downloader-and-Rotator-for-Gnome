@@ -4,7 +4,7 @@ Wallpaper Downloader and Rotator for Gnome
 * Author:    Laszlo Szathmary (<jabba.laci@gmail.com>)
 * Date:      April, 2011
 * Last mod.: June, 2011
-* Version:   0.3.8
+* Version:   0.4.0
 * Website:   <https://ubuntuincident.wordpress.com/2011/04/06/wallpaper-downloader-and-rotator-for-gnome/>
 * GitHub:    <https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome>
 
@@ -20,6 +20,8 @@ will rotate the images.
 
 Here is the list of changes that I added to the original version:
 
+* **New!** The project includes an automatic wallpaper changer script
+  called `changer.py`. You don't need any third-party managers anymore.
 * You can choose from several reddit categories. You can also 
   specify your favorite category.
 * Screen scraping is done with the BeautifulSoup library.
@@ -62,10 +64,23 @@ called at every two hours (at 0h10, 2h10, etc.).
 
 I changed the default behaviour of the script. By default it doesn't
 generate an XML output. I find it a better solution to use a dedicated
-wallpaper manager for this task (see below for a list of alternatives).
-Rotating the images with an XML is not very flexible, a wallpaper manager
-can provide a better experience.
+wallpaper manager for this task. Rotating the images with an XML is not 
+very flexible, a wallpaper manager can provide a better experience.
+To this end, I wrote a simple wallpaper rotator that does the job (see 
+the file `changer.py`).
 If you still want the XML, set it in the config file.
+
+
+Managing the downloaded wallpapers:
+-----------------------------------
+
+There are several ways to manage the downloaded images:
+
+1. The **new** way is to use `changer.py`. Just launch it in the
+   background. It uses the same config file as the wallpaper 
+   downloader.
+2. The old way is to generate an XML and set it as your wallpaper.
+   The downloader can do all that; for customizations see the config file.
 
 
 Contributors:
@@ -78,39 +93,6 @@ Contributors:
 [3]: https://github.com/zioyero
 
 
-Managing the downloaded wallpapers:
------------------------------------
-
-There are several ways to manage the downloaded images:
-
-1. The easiest way is to let this job done by the script. See the
-   config file if you want to do some customizations. The script
-   can generate an XML and set it as your wallpaper.
-2. You can also use a wallpaper manager. I suggest wally, it worked
-   very well for me. See [this post][4] for more information on how to 
-   install and make it work under Unity.
-   
-   Nathan B, alias ndbroadbent suggests Cortina. Here is what he has to say 
-   about it:
-
-> I'd just like to mention that I found the 'Cortina' application, and it blows away Gnome's wallpaper rotater.
-> It monitors an image directory and changes your wallpapers after a desired interval, but also:
-> 
-> * Can be set to change wallpapers in a random order
-> * Puts an icon in the system tray
->     * Left-click: immediately change the wallpaper
->     * Right-click  => Current Wallpaper => remove from disk
-> 
-> You can install it from a custom PPA with this command:
-> 
->     sudo add-apt-repository ppa:cs-sniffer/cortina && sudo apt-get update && sudo apt-get install cortina
-
-I couldn't install Cortina under Ubuntu 11.04 but it might work with older systems.
-Note that wally can do similar things too.
-
-[4]: https://ubuntuincident.wordpress.com/2011/01/10/wallpaper-changer/
-
-
 TODO:
 -----
 
@@ -119,7 +101,7 @@ Add support to more wallpaper sites:
 * <http://wallbase.cc>
 * <http://4walled.org/>
 
-Huge images (typically from /r/SpacePorn) should be resized to a reasonable size.
+Huge images (typically from `/r/SpacePorn`) should be resized to a reasonable size.
 It could be done with PIL. Example:
 
     from PIL import Image

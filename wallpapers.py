@@ -18,6 +18,7 @@ from urlparse import urlparse
 import config as cfg
 import wallpapers.helper.database as db
 from wallpapers.helper import xml
+from wallpapers.helper import gnome
 from wallpapers.scraper import dispatch
 from wallpapers.helper import directories
 
@@ -98,7 +99,7 @@ def create_and_set_xml_wallpaper():
         random.shuffle(jpg_files) # randomize image order
         xml.write_xml_output(jpg_files)
         if cfg.SET_XML_WALLPAPER:
-            xml.set_xml_wallpaper()
+            gnome.set_wallpaper_xml()
 
 
 def main():
