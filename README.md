@@ -21,7 +21,7 @@ will rotate the images.
 Here is the list of changes that I added to the original version:
 
 * **New!** The project includes an automatic wallpaper changer script
-  called `changer.py`. You don't need any third-party managers anymore.
+  called `wallpaper_rotator.py`. You don't need any third-party managers anymore.
 * You can choose from several reddit categories. You can also 
   specify your favorite category.
 * Screen scraping is done with the BeautifulSoup library.
@@ -67,7 +67,7 @@ generate an XML output. I find it a better solution to use a dedicated
 wallpaper manager for this task. Rotating the images with an XML is not 
 very flexible, a wallpaper manager can provide a better experience.
 To this end, I wrote a simple wallpaper rotator that does the job (see 
-the file `changer.py`).
+the file `wallpaper_rotator.py`).
 If you still want the XML, set it in the config file.
 
 
@@ -76,7 +76,7 @@ Managing the downloaded wallpapers:
 
 There are several ways to manage the downloaded images:
 
-1. The **new** way is to use `changer.py`. Just launch it in the
+1. The **new** way is to use `wallpaper_rotator.py`. Just launch it in the
    background. It uses the same config file as the wallpaper 
    downloader.
 2. The old way is to generate an XML and set it as your wallpaper.

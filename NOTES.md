@@ -9,7 +9,7 @@ Third-party wallpaper managers:
 -------------------------------
 
 From version 0.4.0, this project contains an automatic
-wallpaper changer (see `changer.py`). Before that here
+wallpaper changer (see `wallpaper_rotator.py`). Before that here
 is what I suggested:
 
 
