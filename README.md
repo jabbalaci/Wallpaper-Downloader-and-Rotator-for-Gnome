@@ -96,22 +96,24 @@ Contributors:
 TODO:
 -----
 
-Add support to more wallpaper sites:
+1. Add support to more wallpaper sites: <http://wallbase.cc>, <http://4walled.org/>.
 
-* <http://wallbase.cc>
-* <http://4walled.org/>
+2. Huge images (typically from `/r/SpacePorn`) should be resized to a reasonable size.
+   It could be done with PIL. Example:
 
-Huge images (typically from `/r/SpacePorn`) should be resized to a reasonable size.
-It could be done with PIL. Example:
+        from PIL import Image
+        import glob, os
+    
+        size = 128, 128
+    
+        for infile in glob.glob("*.jpg"):
+            file, ext = os.path.splitext(infile)
+            im = Image.open(infile)
+            im.thumbnail(size, Image.ANTIALIAS)
+            im.save(file + ".thumbnail", "JPEG")
 
-    from PIL import Image
-    import glob, os
-
-    size = 128, 128
-
-    for infile in glob.glob("*.jpg"):
-        file, ext = os.path.splitext(infile)
-        im = Image.open(infile)
-        im.thumbnail(size, Image.ANTIALIAS)
-        im.save(file + ".thumbnail", "JPEG")
-
+3. Currently the downloader grabs images from one site only,
+   this is specified by the user in the config file. It'd be nice if the
+   downloader could visit _several_ or even _all_ the sites that are listed
+   in the config file. This way if I want to see wallpapers from another
+   category, that category would already contain lots of images.
