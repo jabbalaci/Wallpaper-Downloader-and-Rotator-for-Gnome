@@ -1,19 +1,17 @@
 Wallpaper Downloader and Rotator for Gnome
 ==========================================
 
-* Authors:
-    - Laszlo Szathmary (<jabba.laci@gmail.com>)
-    - iwakun (<http://www.reddit.com/user/iwakun>)
+* Author:    Laszlo Szathmary (<jabba.laci@gmail.com>)
 * Date:      April, 2011
-* Last mod.: May, 2011
-* Version:   0.3.6
+* Last mod.: June, 2011
+* Version:   0.3.8
 * Website:   <https://ubuntuincident.wordpress.com/2011/04/06/wallpaper-downloader-and-rotator-for-gnome/>
 * GitHub:    <https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome>
 
 This free software is copyleft licensed under the same terms as Python, or,
 at your option, under version 2 of the GPL license.
 
-(The original script was written by reddit user iwakun.
+(The original script was written by reddit user [iwakun](http://www.reddit.com/user/iwakun).
 See the `original_by_iwakun/` folder for more information.)
 
 The goal of the script is to download images from a reddit category and 
@@ -85,9 +83,9 @@ Managing the downloaded wallpapers:
 
 There are several ways to manage the downloaded images:
 
-1. The easiest way is to let this job done by the script. By default,
-   it produces an XML file and sets it as your wallpaper. See the
-   config file if you want to do some customizations.
+1. The easiest way is to let this job done by the script. See the
+   config file if you want to do some customizations. The script
+   can generate an XML and set it as your wallpaper.
 2. You can also use a wallpaper manager. I suggest wally, it worked
    very well for me. See [this post][4] for more information on how to 
    install and make it work under Unity.

@@ -2,3 +2,4 @@
 .pydevproject
 tmp/
 *.pyc
+.idea/

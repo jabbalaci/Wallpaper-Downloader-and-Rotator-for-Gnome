@@ -11,7 +11,7 @@ import os
 import sqlite3
 import atexit
 
-import config as c
+import config as cfg
 
 SCHEMA = """
 -- Schema for the wallpapers.
@@ -42,16 +42,16 @@ def add_image(url, good=True):
     try:
         conn.execute(query)
     except sqlite3.IntegrityError:
-        print "# the image {0} is already in the DB...".format(url)
+        print("# the image {0} is already in the DB...".format(url))
 
 
 def create_db():
     """Create the DB if not exists."""
     global conn
-    dir_name= os.path.split(c.SQLITE_DB)[0]
+    dir_name = os.path.split(cfg.SQLITE_DB)[0]
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
-    conn = sqlite3.connect(c.SQLITE_DB)
+    conn = sqlite3.connect(cfg.SQLITE_DB)
     conn.executescript(SCHEMA)
 
 
@@ -60,22 +60,23 @@ def init():
     global conn
     atexit.register(commit_and_close)
     
-    if not os.path.exists(c.SQLITE_DB):
+    if not os.path.exists(cfg.SQLITE_DB):
         create_db()
     if not conn:
-        conn = sqlite3.connect(c.SQLITE_DB)
+        conn = sqlite3.connect(cfg.SQLITE_DB)
         
         
 def commit_and_close():
     """Commit and close DB connection.
     
     As I noticed, commit() must be called, otherwise changes
-    are not commited automatically when the program terminates.
+    are not committed automatically when the program terminates.
     """
     if conn:
         conn.commit()
         conn.close()
-        
+
+#############################################################################
 
 if __name__ == "__main__":
     # some simple tests: 

@@ -22,7 +22,6 @@ def get_jpg_images(soup):
                 images.append(tag['href'])  # no duplicates and keep the order
                 
     return images
-# get_jpg_images
 
 
 def get_flickr_images(soup):
@@ -41,7 +40,6 @@ def get_flickr_images(soup):
             images.append(li[0])
 
     return images
-# get_flickr_images
 
 
 def get_image_url_list(url):
@@ -56,4 +54,3 @@ def get_image_url_list(url):
     union.extend(list_2)
     
     return union
-# get_image_url_list

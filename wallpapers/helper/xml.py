@@ -10,7 +10,7 @@ import shlex
 from lxml import etree as ET
 from subprocess import call, PIPE
 
-import config as c
+import config as cfg
 
 
 def write_xml_output(images):
@@ -32,32 +32,31 @@ def write_xml_output(images):
     for i in range(0, size):
         static = ET.SubElement(root, 'static')
         dur = ET.SubElement(static, 'duration')
-        dur.text = c.DURATION
+        dur.text = cfg.DURATION
         file_tag = ET.SubElement(static, 'file')
-        file_tag.text = c.PHOTO_DIR + images[i]
+        file_tag.text = cfg.PHOTO_DIR + images[i]
         #
         trans = ET.SubElement(root, 'transition')
         dur = ET.SubElement(trans, 'duration')
-        dur.text = c.TRANSITION
+        dur.text = cfg.TRANSITION
         from_tag = ET.SubElement(trans, 'from')
-        from_tag.text = c.PHOTO_DIR + images[i]
+        from_tag.text = cfg.PHOTO_DIR + images[i]
         to_tag = ET.SubElement(trans, 'to')
-        to_tag.text = c.PHOTO_DIR + images[i+1]
+        to_tag.text = cfg.PHOTO_DIR + images[i+1]
     
     tree = ET.ElementTree(root)
-    xml_output_file = os.path.join(c.PHOTO_DIR, c.get_xml_filename())
+    xml_output_file = os.path.join(cfg.PHOTO_DIR, cfg.XML_FILENAME)
     tree.write(xml_output_file, pretty_print=True, 
                xml_declaration=True)
-    print "# XML was written to {0}".format(xml_output_file)
-# write_xml_output
+    print("# XML was written to {0}".format(xml_output_file))
 
 
 def set_xml_wallpaper():
     """Set the XML file as wallpaper.
     
     Call the necessary Gnome commands for this."""
-    xml_output_file = os.path.join(c.PHOTO_DIR, c.get_xml_filename())
+    xml_output_file = os.path.join(cfg.PHOTO_DIR, cfg.XML_FILENAME)
     cmd = "gconftool-2 --type string --set /desktop/gnome/background/picture_filename {0}".format(xml_output_file)
     args = shlex.split(cmd)
     if call(args, stdout=PIPE) == 0:
-        print "# XML file {0} was set as wallpaper.".format(xml_output_file)
+        print("# XML file {0} was set as wallpaper.".format(xml_output_file))
