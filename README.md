@@ -4,7 +4,7 @@ Wallpaper Downloader and Rotator for Gnome
 * Author:    Laszlo Szathmary (<jabba.laci@gmail.com>)
 * Date:      April, 2011
 * Last mod.: June, 2011
-* Version:   0.4.5
+* Version:   0.5.0
 * Website:   <https://ubuntuincident.wordpress.com/2011/04/06/wallpaper-downloader-and-rotator-for-gnome/>
 * GitHub:    <https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome>
 
@@ -20,6 +20,10 @@ will rotate the images.
 
 Here is the list of changes that I added to the original version:
 
+* **New!** Large images can be resized to fit your screen resolution. By default,
+  the maximum width of images can be 1920 pixels. You can customize it in the
+  config file. It's recommended, this way the images will occupy much less space
+  on your hard drive.
 * **New!** You can specify several categories and the downloader will grab
   images from all these sites. The same is true for rotator: you can specify
   several categories and it will pick a random image from the whole list.

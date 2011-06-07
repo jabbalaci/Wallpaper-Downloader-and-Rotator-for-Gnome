@@ -21,11 +21,14 @@ WALLPAPER_PAGES = {
     2 : {'id': 'SpacePorn',      'type': REDDIT_COM, 'url': 'http://www.reddit.com/r/SpacePorn'},
     3 : {'id': 'AnimalPorn',     'type': REDDIT_COM, 'url': 'http://www.reddit.com/r/AnimalPorn'},
     4 : {'id': 'BotanicalPorn',  'type': REDDIT_COM, 'url': 'http://www.reddit.com/r/BotanicalPorn'},
-    5 : {'id': 'AlternativeArt', 'type': REDDIT_COM, 'url': 'http://www.reddit.com/r/AlternativeArt'},
+    5 : {'id': 'NaturePics',     'type': REDDIT_COM, 'url': 'http://www.reddit.com/r/NaturePics'},
+    6 : {'id': 'WaterPorn',      'type': REDDIT_COM, 'url': 'http://www.reddit.com/r/WaterPorn'},
+    7 : {'id': 'AlternativeArt', 'type': REDDIT_COM, 'url': 'http://www.reddit.com/r/AlternativeArt'},
+    8 : {'id': 'SpecArt',        'type': REDDIT_COM, 'url': 'http://www.reddit.com/r/SpecArt'},
 }
 
 # Your choice. Example: 0, which means EarthPorn.
-CURRENT_CHOICE = 3
+CURRENT_CHOICE = 4
 # The downloader can grab images from _several_ sites too. Precise their keys here _in a list_.
 # This list should contain at least one element, the CURRENT_CHOICE.
 #MULTIPLE_CHOICE = [CURRENT_CHOICE]
@@ -62,6 +65,13 @@ SIZE_THRESHOLD = (900, 600)
 SIZE_TOLERANCE_PERCENTAGE = 5.0
 # ratio must be in this interval:
 RATIO_INTERVAL = (1.0, 2.1)
+
+# Should large images be resized?
+RESIZE_LARGE_IMAGES = True
+#RESIZE_LARGE_IMAGES = False
+# Here you can specify the width of your screen in pixels.
+# Too large images will be resized to this width.
+MAX_WIDTH = 1920
 ##############################################################################
 ## for Gnome's XML
 ##############################################################################
@@ -81,7 +91,7 @@ TRANSITION = '3.0'
 ##############################################################################
 
 
-def get_choice():
+def get_current_site_record():
     """Get the chosen record as a dictionary."""
     return WALLPAPER_PAGES[CURRENT_CHOICE]
 
