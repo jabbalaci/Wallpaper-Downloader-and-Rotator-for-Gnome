@@ -101,7 +101,19 @@ Contributors:
 [3]: https://github.com/zioyero
 
 
+Discussion:
+-----------
+
+Maybe I should remove the XML generator part from the downloader. After all, it's
+"just" a downloader, so it should do just one thing. Since I made a wallpaper
+changer, I don't use the XML any more. The new rotator script is preferred over
+the XML, thus XML is sort of deprecated.
+
+
 TODO:
 -----
 
 1. Add support to more wallpaper sites: <http://wallbase.cc>, <http://4walled.org/>.
+
+2. Add support to other operating systems: Windows, Mac.
+
