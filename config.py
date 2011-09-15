@@ -15,6 +15,7 @@ BASE_DIR = '/trash/gnome-wallpapers'
 # types of websites
 REDDIT_COM = 0
 WALLBASE_CC = 1
+FOUR_WALLED_ORG = 2     # 4walled.org
 
 # Wallbase info
 # -------------
@@ -24,6 +25,10 @@ WALLBASE_CC = 1
 # This is what you should add to the list below. To the ID, I suggest adding
 # the 'wb_' prefix to differentiate it from subreddits.
 
+def get_4walled_url(tag, sfw):
+    # at 4walled.org sfw=0 means you want sfw images
+    template = 'http://4walled.org/search.php?tags={tag}&board=&width_aspect=&searchstyle=larger&sfw={sfw}&search=search'
+    return template.format(tag=tag, sfw = '0' if sfw else '')
 
 # expand the list if you want
 WALLPAPER_PAGES = {
@@ -44,6 +49,8 @@ WALLPAPER_PAGES = {
    12 : {'id': 'wb_Linux',       'type': WALLBASE_CC, 'url': 'http://wallbase.cc/tags/info/8718'},
    13 : {'id': 'wb_Ubuntu',      'type': WALLBASE_CC, 'url': 'http://wallbase.cc/tags/info/8719'},
    14 : {'id': 'wb_Space',       'type': WALLBASE_CC, 'url': 'http://wallbase.cc/tags/info/8135'},
+   ### add 4walled pages below:
+   15 : {'id': '4w_Linux',       'type': FOUR_WALLED_ORG, 'url': get_4walled_url(tag='linux', sfw=True)},
 }
 
 # Your choice. Example: 0, which means EarthPorn.
@@ -121,8 +128,7 @@ def set_current_choice(choice):
     
     CURRENT_CHOICE = choice
     PHOTO_DIR = get_curr_photo_dir()
-
-
+    
 def self_verify():
     """Let's do some verifications to be sure that everythign was set correctly."""
     global BASE_DIR, MULTIPLE_CHOICE, ROTATOR_CHOICE

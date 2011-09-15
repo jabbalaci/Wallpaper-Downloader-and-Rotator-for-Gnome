@@ -13,10 +13,9 @@ import os
 import random
 import Image
 
-from urlparse import urlparse
-
 import config as cfg
 import wallpapers.helper.database as db
+import wallpapers.helper.web as web
 from wallpapers.helper import xml
 from wallpapers.helper import gnome
 from wallpapers.scraper import dispatch
@@ -27,14 +26,6 @@ from wallpapers.helper import resize
 cnt_resized_images = 0
 
 
-def get_file_name(url):
-    """Return the file name from an URL.
-       
-    Ex.: http://example/pic.jpg => pic.jpg.
-    """
-    return os.path.split(urlparse(url)[2])[1]
-
-
 def is_ok_for_wallpaper(image_url):
     """Decide whether an image_url is appropriate as a wallpaper.
     
@@ -43,7 +34,7 @@ def is_ok_for_wallpaper(image_url):
     """
     minimum_pixels = cfg.SIZE_THRESHOLD[0] * cfg.SIZE_THRESHOLD[1] * \
                      ((100.0 - cfg.SIZE_TOLERANCE_PERCENTAGE)/100.0)
-    file_name = get_file_name(image_url)
+    file_name = web.get_file_name(image_url)
     file_path = cfg.PHOTO_DIR + file_name
     try:
         img = Image.open(file_path)
@@ -75,7 +66,7 @@ def register_good_and_bad_image_urls_to_db(good_images, bad_images):
 def delete_bad_images(bad_image_urls):
     """Delete images from the file system that are not suitable for wallpapers."""
     for url in bad_image_urls:
-        os.remove(cfg.PHOTO_DIR + get_file_name(url))
+        os.remove(cfg.PHOTO_DIR + web.get_file_name(url))
 
     print("# removed image(s): {0}".format(len(bad_image_urls)))
 
@@ -88,7 +79,9 @@ def download_images(image_urls):
         if not db.is_image_in_db(img_url):
             filename = os.path.basename(img_url)
             if not os.path.exists(cfg.PHOTO_DIR + filename):
-                cmd = "wget {0} -O {1}".format(img_url, os.path.join(cfg.PHOTO_DIR, filename))
+                referer_string = web.get_referrer_string(img_url)  # to trick 4walled.org
+                cmd = "wget {ref} {url} -O {save}".format(url=img_url, save=os.path.join(cfg.PHOTO_DIR, filename), ref=referer_string)
+                print cmd
                 os.system(cmd)
                 fetched.append(img_url)
                 count += 1
@@ -125,7 +118,7 @@ def resize_large_images(image_urls):
     global cnt_resized_images
     
     for image_url in image_urls:
-        file_name = get_file_name(image_url)
+        file_name = web.get_file_name(image_url)
         file_path = cfg.PHOTO_DIR + file_name
         img = Image.open(file_path)
         width = img.size[0]

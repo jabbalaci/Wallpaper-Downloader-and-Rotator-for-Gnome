@@ -4,7 +4,7 @@ Wallpaper Downloader and Rotator for Gnome
 * Author:    Laszlo Szathmary (<jabba.laci@gmail.com>)
 * Date:      April, 2011
 * Last mod.: September, 2011
-* Version:   0.6.0
+* Version:   0.6.5
 * Website:   <https://ubuntuincident.wordpress.com/2011/04/06/wallpaper-downloader-and-rotator-for-gnome/>
 * GitHub:    <https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome>
 
@@ -19,6 +19,7 @@ store them in the file system. *Second*, rotate the downloaded images as wallpap
 
 Here is the list of changes that I added to the original version:
 
+* **New!** Support for [4walled.org](http://4walled.org) is added!
 * **New!** Support for [wallbase.cc](http://wallbase.cc) is added!
 * Large images can be resized to fit your screen resolution. By default,
   the maximum width of images can be 1920 pixels. You can customize it in the
@@ -116,7 +117,6 @@ in a future version.
 TODO:
 -----
 
-1. Add support to the wallpaper site <http://4walled.org/>.
+1. Add support to other operating systems: Windows, Mac.
 
-2. Add support to other operating systems: Windows, Mac.
-
+2. Any ideas? Tell me!
