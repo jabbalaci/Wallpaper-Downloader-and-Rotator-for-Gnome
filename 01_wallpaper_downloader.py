@@ -112,7 +112,8 @@ def create_and_set_xml_wallpaper():
 
 def header():
     """Header to know which site we are working with."""
-    header = "{0}".format(cfg.get_current_site_record()['url'])
+    record = cfg.get_current_site_record()
+    header = "{0} ({1})".format(record['url'], record['id'])
     size = len(header) + 2 + 2
     return """{sep}
 # {header} #
@@ -141,8 +142,10 @@ def get_images_from_site(site_key):
     print header()
 
     all_image_urls = dispatch.get_images(cfg.get_current_site_record())
+    # keep JPG files only:
+    jpg_image_urls = [x for x in all_image_urls if x.lower().endswith('jpg')]
     
-    fetched_image_urls = download_images(all_image_urls)
+    fetched_image_urls = download_images(jpg_image_urls)
 
     good_image_urls = [x for x in fetched_image_urls if is_ok_for_wallpaper(x)]
     bad_image_urls = list( set(fetched_image_urls).difference(set(good_image_urls)) )

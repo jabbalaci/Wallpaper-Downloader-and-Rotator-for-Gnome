@@ -62,6 +62,11 @@ class WallpaperPicker:
         self.prev = img
         
         return img
+    
+    def free_memory(self):
+        """Don't keep the list in memory while waiting (sleep). After all,
+        this list will be re-read each time."""
+        del self.images
 
 
 def main():
@@ -74,6 +79,9 @@ def main():
         reload(cfg)
         cfg.self_verify()
         
+        # The list of images is re-read in each iteration because Wallpaper Downloader
+        # is supposed to work parallelly. Thus, newly downloaded images will have a 
+        # chance to appear on the desktop. 
         wp.collect_images()
         
         nb_images = wp.get_nb_images()
@@ -90,6 +98,8 @@ def main():
             # there are several images => choose a different image than the previous pick
             wallpaper = wp.get_random_image()
             gnome.set_wallpaper_image(wallpaper)
+            
+        wp.free_memory()
             
         try:
             sleep(float(cfg.DURATION))
