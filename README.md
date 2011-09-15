@@ -14,8 +14,8 @@ at your option, under version 2 of the GPL license.
 (The original script was written by reddit user [iwakun](http://www.reddit.com/user/iwakun).
 See the `original_by_iwakun/` folder for more information.)
 
-The goal of this project is twofold. *First*, download images from a reddit (or wallbase.cc) category and 
-store them in the file system. *Second*, rotate the downloaded images as wallpapers.
+The goal of this project is twofold. *First*, download images from a wallpaper site.
+*Second*, rotate the downloaded images as wallpapers.
 
 Here is the list of changes that I added to the original version:
 
@@ -51,8 +51,16 @@ installation procedure is explained at the end of the post.
 [1]: https://pythonadventures.wordpress.com/2011/04/04/write-xml-to-file/
 
 
-Usage:
-------
+Supported wallpaper sites
+-------------------------
+
+1. <http://www.reddit.com>
+2. <http://wallbase.cc>
+3. <http://4walled.org>
+
+
+Usage
+-----
 
 First, you might want to customize some settings in the `config.py` file.
 The most important thing is the `PHOTO_DIR` directory, i.e. where to store
@@ -82,20 +90,19 @@ If you still want the XML, set it in the config file.
 *Warning!* The XML support is deprecated, I will remove that feature in a future version.
 
 
-Managing the downloaded wallpapers:
------------------------------------
+Setting the images as wallpapers
+--------------------------------
 
-There are several ways to manage the downloaded images:
+There are several ways to set the downloaded images as wallpapers:
 
 1. The **new** way is to use `02_wallpaper_rotator.py`. Just launch it in the
-   background. It uses the same config file as the wallpaper 
-   downloader.
+   background. It uses the same config file as the wallpaper downloader.
 2. The old (and deprecated) way is to generate an XML and set it as your wallpaper.
    The downloader can do all that; for customizations see the config file.
 
 
-Contributors:
--------------
+Contributors
+------------
 
 * Nathan B, alias [ndbroadbent][2]
 * Adrian Castillejos, alias [zioyero][3]
@@ -104,8 +111,8 @@ Contributors:
 [3]: https://github.com/zioyero
 
 
-Discussion:
------------
+Discussion
+----------
 
 Maybe I should remove the XML generator part from the downloader. After all, it's
 "just" a downloader, so it should do just one thing. Since I made a wallpaper
@@ -114,8 +121,8 @@ the XML, thus XML is sort of deprecated. *Update*: I will remove the XML support
 in a future version.
 
 
-TODO:
------
+TODO
+----
 
 1. Add support to other operating systems: Windows, Mac.
 
