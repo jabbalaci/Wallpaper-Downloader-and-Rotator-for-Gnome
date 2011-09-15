@@ -98,22 +98,12 @@ RESIZE_LARGE_IMAGES = True
 # Here you can specify the width of your screen in pixels.
 # Too large images will be resized to this width.
 MAX_WIDTH = 1920
+
 ##############################################################################
-## for Gnome's XML
+## for setting wallpapers
 ##############################################################################
-XML_FILENAME = 'wallpapers.xml'
-# Should we produce an XML? It's not obligatory. You can use this script
-# for simply downloading images and you can use a different wallpaper manager. 
-#PRODUCE_XML = True
-PRODUCE_XML = False
-# Should we set the produced XML as your wallpaper? If PRODUCE_XML is False,
-# it will be discarded.
-#SET_XML_WALLPAPER = True
-SET_XML_WALLPAPER = False
 # duration in seconds:
 DURATION = '600.0'
-# transition time in seconds between two images:
-TRANSITION = '3.0'
 ##############################################################################
 
 

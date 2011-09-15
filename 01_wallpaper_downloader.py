@@ -10,14 +10,11 @@ See the README file for more details.
 """
 
 import os
-import random
 import Image
 
 import config as cfg
 import wallpapers.helper.database as db
 import wallpapers.helper.web as web
-from wallpapers.helper import xml
-from wallpapers.helper import gnome
 from wallpapers.scraper import dispatch
 from wallpapers.helper import directories
 from wallpapers.helper import resize
@@ -92,17 +89,6 @@ def download_images(image_urls):
     return fetched
 
 
-def create_and_set_xml_wallpaper():
-    """Collect images, create an XML and set it as wallpaper."""
-    if cfg.PRODUCE_XML:
-        jpg_files = [x for x in os.listdir(cfg.PHOTO_DIR) if x.lower().endswith('jpg')]
-        if len(jpg_files) > 0:
-            random.shuffle(jpg_files)   # randomize image order
-            xml.write_xml_output(jpg_files)
-            if cfg.SET_XML_WALLPAPER:
-                gnome.set_wallpaper_xml()
-
-
 def header():
     """Header to know which site we are working with."""
     record = cfg.get_current_site_record()
@@ -163,7 +149,6 @@ def main():
         
     cfg.set_current_choice(save_choice)
     
-    create_and_set_xml_wallpaper()
     print "#"
     print "# total number of resized images: {cnt}".format(cnt=cnt_resized_images)
 

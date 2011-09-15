@@ -4,7 +4,7 @@ Wallpaper Downloader and Rotator for Gnome
 * Author:    Laszlo Szathmary (<jabba.laci@gmail.com>)
 * Date:      April, 2011
 * Last mod.: September, 2011
-* Version:   0.6.5
+* Version:   0.6.8
 * Website:   <https://ubuntuincident.wordpress.com/2011/04/06/wallpaper-downloader-and-rotator-for-gnome/>
 * GitHub:    <https://github.com/jabbalaci/Wallpaper-Downloader-and-Rotator-for-Gnome>
 
@@ -19,6 +19,8 @@ The goal of this project is twofold. *First*, download images from a wallpaper s
 
 Here is the list of changes that I added to the original version:
 
+* **New!** XML support is dropped. For setting the images as
+  wallpapers, use the script `02_wallpaper_rotator.py`.
 * **New!** Support for [4walled.org](http://4walled.org) is added!
 * **New!** Support for [wallbase.cc](http://wallbase.cc) is added!
 * Large images can be resized to fit your screen resolution. By default,
@@ -37,18 +39,9 @@ Here is the list of changes that I added to the original version:
 * The most important change is the filtering of images that are
   unsuitable as wallpapers, i.e. small images, portrait images, and
   images with strange ratio are removed from the list.
-* XML writing is done with the lxml library. (*deprecated*)
 * Support for Flickr images (zioyero's patch).
 * The URLs of the downloaded images are strored in an SQLite database.
   This way an already fetched image (either good or bad) won't be downloaded again.
-* The script can set the produced XML as your wallpaper, you don't need to
-  do that manually. Also, XML production can be switched off if you want to
-  use a different wallpaper manager. (*deprecated*)
-
-For installing lxml, please refer to [this entry][1], where the 
-installation procedure is explained at the end of the post.
-
-[1]: https://pythonadventures.wordpress.com/2011/04/04/write-xml-to-file/
 
 
 Supported wallpaper sites
@@ -77,48 +70,23 @@ You can also add it to your crontab:
 Add the second line to the end of the crontab list. Here the script is 
 called at every two hours (at 0h10, 2h10, etc.).
 
-**New:**
+For setting the images as wallpapers:
 
-I changed the default behaviour of the script. By default it doesn't
-generate an XML output. I find it a better solution to use a dedicated
-wallpaper manager for this task. Rotating the images with an XML is not 
-very flexible, a wallpaper manager can provide a better experience.
-To this end, I wrote a simple wallpaper rotator that does the job (see 
-the file `02_wallpaper_rotator.py`).
-If you still want the XML, set it in the config file.
-
-*Warning!* The XML support is deprecated, I will remove that feature in a future version.
-
-
-Setting the images as wallpapers
---------------------------------
-
-There are several ways to set the downloaded images as wallpapers:
-
-1. The **new** way is to use `02_wallpaper_rotator.py`. Just launch it in the
-   background. It uses the same config file as the wallpaper downloader.
-2. The old (and deprecated) way is to generate an XML and set it as your wallpaper.
-   The downloader can do all that; for customizations see the config file.
+    ./02_wallpaper_rotator.py &
+    
+That is, just launch it in the background. It uses the same config file as 
+the wallpaper downloader. I put it among my startup applications, thus it
+starts automatically.
 
 
 Contributors
 ------------
 
-* Nathan B, alias [ndbroadbent][2]
-* Adrian Castillejos, alias [zioyero][3]
+* Nathan B, alias [ndbroadbent][1]
+* Adrian Castillejos, alias [zioyero][2]
 
-[2]: https://github.com/ndbroadbent
-[3]: https://github.com/zioyero
-
-
-Discussion
-----------
-
-Maybe I should remove the XML generator part from the downloader. After all, it's
-"just" a downloader, so it should do just one thing. Since I made a wallpaper
-changer, I don't use the XML any more. The new rotator script is preferred over
-the XML, thus XML is sort of deprecated. *Update*: I will remove the XML support
-in a future version.
+[1]: https://github.com/ndbroadbent
+[2]: https://github.com/zioyero
 
 
 TODO
